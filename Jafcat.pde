@@ -1,7 +1,4 @@
-//branch_test //<>//
-import gab.opencv.*;  //<>//
-//import org.opencv.core.*;
-//import org.opencv.highgui.*;
+import gab.opencv.*;  //<>// //<>//
 import java.awt.*;
 import controlP5.*;
 
