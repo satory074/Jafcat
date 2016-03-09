@@ -1,5 +1,5 @@
 /**
- * 顔認識するクラス
+ * 顔認識をする
  * @author satori
  *
  */
@@ -38,7 +38,7 @@ class FacialRecognition {
 
     for (int i=0; i<faces.length; i++) {
       double[] percent = new double[4];
-      stroke(character_color(fc.classification(this.histogram[i], percent)));
+      stroke(character_instance(fc.classification(this.histogram[i], percent)).get_color());
 
       rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
     }
@@ -77,21 +77,21 @@ class FacialRecognition {
   /**
    * 整数からキャラクターの色を取得する
    *
-   * @param  n       整数
-   * @return (color) カラーコード
+   * @param  id      キャラ番号
+   * @return (Chara) Charaインスタンス
    */
-  private color character_color(int n) {
-    switch(n) {
+  private Chara character_instance(int id) {
+    switch(id) {
     case 0:  
-      return #ffff00;//櫟井唯
+      return yui;
     case 1:  
-      return #ff0000;//野々原ゆずこ
+      return yuzuko;
     case 2:  
-      return #0000ff;//日向縁
+      return yukari;
     case 3:  
-      return #000000;//その他
+      return other;
     default: 
-      return #ffffff;
+      return none;
     }
   }
 

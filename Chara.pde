@@ -1,3 +1,9 @@
+/**
+ * キャラクターの情報
+ * @editor satori
+ *
+ */
+
 class Chara {
   private String name;
   private int id;
