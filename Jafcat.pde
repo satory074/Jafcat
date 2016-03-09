@@ -1,4 +1,4 @@
-import gab.opencv.*;  //<>// //<>//
+import gab.opencv.*;   //<>// //<>//
 import java.awt.*;
 import controlP5.*;
 
@@ -14,10 +14,10 @@ void settings() {
 
 void setup() {
 
-  fc.fileImport("C:/Users/太郎/Documents/GitHub/ImageProcessing/Jafcat/data/histogram.txt");
+  fc.fileImport("C:/Users/太郎/Documents/GitHub/Jafcat/data/histogram.txt");
   fc.train();
 
-  opencv = new OpenCV(this, loadImage("C:/Users/太郎/Documents/GitHub/ImageProcessing/Jafcat/data/test/test6.jpg"));
+  opencv = new OpenCV(this, loadImage("C:/Users/太郎/Documents/GitHub/Jafcat/data/test/test6.jpg"));
   opencv.loadCascade("lbpcascade_animeface.xml");
 
   surface.setSize(opencv.width, opencv.height);
