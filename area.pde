@@ -1,8 +1,8 @@
 /**
-* 描画する四角形のエリアを定めるクラス
-* @author satori
-*
-*/
+ * 描画する四角形のエリアを定めるクラス
+ * @author satori
+ *
+ */
 
 class Area {
   private Point left_top;

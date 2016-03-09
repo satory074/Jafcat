@@ -1,6 +1,6 @@
 /**
- *顔認識するクラス
- *@author satori
+ * 顔認識するクラス
+ * @author satori
  *
  */
 
@@ -26,10 +26,10 @@ class FacialRecognition {
 
 
   /**
-   *検出された画像を囲う
+   * 検出された画像を囲う
    *
-   *@param  なし
-   *@return なし
+   * @param  なし
+   * @return なし
    *
    */
   public void draw_facerect() {
@@ -39,16 +39,16 @@ class FacialRecognition {
     for (int i=0; i<faces.length; i++) {
       double[] percent = new double[4];
       stroke(character_color(fc.classification(this.histogram[i], percent)));
-      
+
       rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
     }
   }
 
   /**
-   *検出された顔全てのヒストグラムの計算
+   * 検出された顔全てのヒストグラムの計算
    *
-   *@param  なし
-   *@return なし
+   * @param  なし
+   * @return なし
    *
    */
   public void calc_histogram() {
@@ -75,26 +75,31 @@ class FacialRecognition {
 
 
   /**
-   *整数からキャラクターの色を取得する
+   * 整数からキャラクターの色を取得する
    *
-   *@param  n       整数
-   *@return (color) カラーコード
+   * @param  n       整数
+   * @return (color) カラーコード
    */
   private color character_color(int n) {
     switch(n) {
-    case 0:  return #ffff00;//櫟井唯
-    case 1:  return #ff0000;//野々原ゆずこ
-    case 2:  return #0000ff;//日向縁
-    case 3:  return #000000;//その他
-    default: return #ffffff;
+    case 0:  
+      return #ffff00;//櫟井唯
+    case 1:  
+      return #ff0000;//野々原ゆずこ
+    case 2:  
+      return #0000ff;//日向縁
+    case 3:  
+      return #000000;//その他
+    default: 
+      return #ffffff;
     }
   }
-  
+
   /**
-   *ピクセルの1次元配列から減色した1次元配列を返す
+   * ピクセルの1次元配列から減色した1次元配列を返す
    *
-   *@param  array ある範囲のpixels[]の1次元配列
-   *@return reduct_array 256階調をgradient階調に減色した1次元配列
+   * @param  array ある範囲のpixels[]の1次元配列
+   * @return reduct_array 256階調をgradient階調に減色した1次元配列
    */
   private int[] invert_pixels(int[] array) {
     int[] reduct_array = new int[array.length];
@@ -106,10 +111,10 @@ class FacialRecognition {
   }
 
   /**
-   *ピクセルの2次元配列から減色した1次元配列を返す
+   * ピクセルの2次元配列から減色した1次元配列を返す
    *
-   *@param  array        ある範囲のpixels[]の2次元配列
-   *@return reduct_array 256階調をgradient階調に減色した1次元配列
+   * @param  array        ある範囲のpixels[]の2次元配列
+   * @return reduct_array 256階調をgradient階調に減色した1次元配列
    */
   private int[] invert_pixels(int[][] origin_array) {
     int[] origin_array_1d = convert_array_2_to_1(origin_array);
@@ -123,12 +128,12 @@ class FacialRecognition {
   }
 
   /**
-   *1次元配列を2次元配列に変換する
+   * 1次元配列を2次元配列に変換する
    *
-   *@param  array_1d    1次元配列
-   *@param  column_size 行のサイズ
-   *@param  row_size    列のサイズ
-   *@return array_2d    2次元配列
+   * @param  array_1d    1次元配列
+   * @param  column_size 行のサイズ
+   * @param  row_size    列のサイズ
+   * @return array_2d    2次元配列
    */
   private int[][] convert_array_1_to_2(int[] array_1d, int column_size, int row_size) {
     int[][] array_2d = new int[column_size][row_size];
@@ -141,10 +146,10 @@ class FacialRecognition {
   }
 
   /**
-   *2次元配列を1次元配列に変換する
+   * 2次元配列を1次元配列に変換する
    *
-   *@param  array_2d    2次元配列
-   *@return array_1d    1次元配列
+   * @param  array_2d    2次元配列
+   * @return array_1d    1次元配列
    */
   private int[] convert_array_2_to_1(int[][] array_2d) {
     int[] array_1d = new int[array_2d.length*array_2d[0].length];
