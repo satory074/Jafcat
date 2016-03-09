@@ -15,7 +15,7 @@ class Chara {
     this.id=id;
     this.col=col;
   }
-
+  
 
   public String get_name() {
     return this.name;

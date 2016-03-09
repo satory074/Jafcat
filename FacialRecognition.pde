@@ -5,6 +5,7 @@
  */
 
 class FacialRecognition {
+  private Utility util = new Utility();
   private Rectangle[] faces;
   private int[][] histogram;
   private int gradient = 4;//減色時の階調
@@ -37,12 +38,30 @@ class FacialRecognition {
     strokeWeight(3);
 
     for (int i=0; i<faces.length; i++) {
-      double[] percent = new double[4];
-      stroke(character_instance(fc.classification(this.histogram[i], percent)).get_color());
-
+      double[] percent = fc.classification(this.histogram[i]);
+      color col = character_instance(util.argmax(percent)).get_color();
+      
+      noFill();
+      stroke(col);
       rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
+      
+      draw_rectlabel(col);
+      
     }
   }
+  
+ /**
+   * 検出された顔全てのヒストグラムの計算
+   *
+   * @param  col  キャラのパーソナルカラー
+   * @return なし
+   *
+   */
+  public void draw_rectlabel(color col){
+    noStroke();
+    fill(col);
+  }
+
 
   /**
    * 検出された顔全てのヒストグラムの計算
@@ -54,8 +73,9 @@ class FacialRecognition {
   public void calc_histogram() {
     loadPixels();
 
+    int[][] pixels_2d = util.convert_array_1_to_2(pixels, height, width);
+
     for (int face_id=0; face_id<faces.length; face_id++) {
-      int[][] pixels_2d = convert_array_1_to_2(pixels, height, width);
       int[][] face_pixels_2d = new int[faces[face_id].height][faces[face_id].width];
 
       //顔の範囲のピクセルデータを格納
@@ -117,7 +137,8 @@ class FacialRecognition {
    * @return reduct_array 256階調をgradient階調に減色した1次元配列
    */
   private int[] invert_pixels(int[][] origin_array) {
-    int[] origin_array_1d = convert_array_2_to_1(origin_array);
+    Utility util = new Utility();
+    int[] origin_array_1d = util.convert_array_2_to_1(origin_array);
     int[] reduct_array = new int[origin_array.length];
 
 
@@ -125,39 +146,5 @@ class FacialRecognition {
       reduct_array[i] = origin_array_1d[i]/(int)(pow(256, 3)/pow(gradient, 3));
 
     return reduct_array;
-  }
-
-  /**
-   * 1次元配列を2次元配列に変換する
-   *
-   * @param  array_1d    1次元配列
-   * @param  column_size 行のサイズ
-   * @param  row_size    列のサイズ
-   * @return array_2d    2次元配列
-   */
-  private int[][] convert_array_1_to_2(int[] array_1d, int column_size, int row_size) {
-    int[][] array_2d = new int[column_size][row_size];
-
-    for (int i=0; i<column_size; i++)
-      for (int j=0; j<row_size; j++)
-        array_2d[i][j] = array_1d[j*row_size+i];
-
-    return array_2d;
-  }
-
-  /**
-   * 2次元配列を1次元配列に変換する
-   *
-   * @param  array_2d    2次元配列
-   * @return array_1d    1次元配列
-   */
-  private int[] convert_array_2_to_1(int[][] array_2d) {
-    int[] array_1d = new int[array_2d.length*array_2d[0].length];
-
-    for (int i=0; i<array_2d.length; i++)
-      for (int j=0; j<array_2d[i].length; j++)
-        array_1d[j*array_2d[i].length+j] = array_2d[i][j];
-
-    return array_1d;
   }
 }

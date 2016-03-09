@@ -7,7 +7,7 @@ import org.deeplearning4j.nnpractice.*;
  * @author Matsudate
  */
 
-class FacialClassification{
+class FacialClassification {
   private int nInput;//64;
   private int nHidden[];// = {100, 50, 25, 10};
   private int nOutput;// = 4;
@@ -17,7 +17,7 @@ class FacialClassification{
   private double alpha;// = 0.1;
   private double decayRate;// = 1E-2;
   private StackedAutoEncoder sAE;
-  
+
   private int input[][];
   private int teach[][];
 
@@ -56,7 +56,7 @@ class FacialClassification{
         //strlist.add(str.split(","));
         //一行の内容を','で分割してそれぞれを[count=ノード番号]の２次元目の配列の要素として格納
         input[count] = parseInts(str.split(","), teach[count]);
-        
+
         //次の行を読み込み
         str = br.readLine();
         count++;
@@ -82,7 +82,7 @@ class FacialClassification{
         switch(s[i]) {
         case "0":
           teach[3] = 1;
-        break;
+          break;
         case "1":
           teach[0] = 1;
           break;
@@ -109,19 +109,29 @@ class FacialClassification{
     sAE.fineTuning(input, teach, alpha, epoch, decayRate);
   }
 
-  public int classification(int testData[], double testOut[]) {
+  /*
+  public double classification(int testData[], double testOut[]) {
+   //classification
+   sAE.reconstruct(testData, testOut);
+   
+   int maxIndex = 0;
+   double maxValue = testOut[0], value;
+   for (int index = 1; index < testOut.length; index++) {
+   value = testOut[index];
+   if (value > maxValue) {
+   maxValue = value;
+   maxIndex = index;
+   }
+   }
+   return maxIndex;
+   }
+   */
+  public double[] classification(int testData[]) {
     //classification
+    double[] testOut = new double[4];
+    
     sAE.reconstruct(testData, testOut);
 
-    int maxIndex = 0;
-    double maxValue = testOut[0], value;
-    for (int index = 1; index < testOut.length; index++) {
-      value = testOut[index];
-      if (value > maxValue) {
-        maxValue = value;
-        maxIndex = index;
-      }
-    }
-    return maxIndex;
+    return testOut;
   }
 }

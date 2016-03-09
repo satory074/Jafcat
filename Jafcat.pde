@@ -14,15 +14,13 @@ Chara none   = new Chara("",             -1, #ffffff);
 
 FacialClassification fc = new FacialClassification(137, new int[] {100, 50, 25, 10}, 4);
 
-void settings() {
-}
 
 void setup() {
 
   fc.fileImport("C:/Users/太郎/Documents/GitHub/Jafcat/data/histogram.txt");
   fc.train();
 
-  opencv = new OpenCV(this, loadImage("C:/Users/太郎/Documents/GitHub/Jafcat/data/test/test6.jpg"));
+  opencv = new OpenCV(this, loadImage("C:/Users/太郎/Documents/GitHub/Jafcat/data/test/test2.jpg"));
   opencv.loadCascade("lbpcascade_animeface.xml");
 
   surface.setSize(opencv.width, opencv.height);
