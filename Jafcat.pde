@@ -20,7 +20,7 @@ void setup() {
   fc.fileImport("C:/Users/太郎/Documents/GitHub/Jafcat/data/histogram.txt");
   fc.train();
 
-  opencv = new OpenCV(this, loadImage("C:/Users/太郎/Documents/GitHub/Jafcat/data/test/test2.jpg"));
+  opencv = new OpenCV(this, loadImage("C:/Users/太郎/Documents/GitHub/Jafcat/data/test/test6.jpg"));
   opencv.loadCascade("lbpcascade_animeface.xml");
 
   surface.setSize(opencv.width, opencv.height);

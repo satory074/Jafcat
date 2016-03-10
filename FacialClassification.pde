@@ -109,29 +109,31 @@ class FacialClassification {
     sAE.fineTuning(input, teach, alpha, epoch, decayRate);
   }
 
-  /*
-  public double classification(int testData[], double testOut[]) {
-   //classification
-   sAE.reconstruct(testData, testOut);
-   
-   int maxIndex = 0;
-   double maxValue = testOut[0], value;
-   for (int index = 1; index < testOut.length; index++) {
-   value = testOut[index];
-   if (value > maxValue) {
-   maxValue = value;
-   maxIndex = index;
-   }
-   }
-   return maxIndex;
-   }
-   */
-  public double[] classification(int testData[]) {
+
+  public int classification(int testData[], double testOut[]) {
     //classification
-    double[] testOut = new double[4];
-    
     sAE.reconstruct(testData, testOut);
 
-    return testOut;
+    int maxIndex = 0;
+    double maxValue = testOut[0], value;
+    for (int index = 1; index < testOut.length; index++) {
+      value = testOut[index];
+      if (value > maxValue) {
+        maxValue = value;
+        maxIndex = index;
+      }
+    }
+    return maxIndex;
   }
+
+
+  /*
+  public double[] classification(int testData[], double[] testOut) {
+   //classification
+   
+   sAE.reconstruct(testData, testOut);
+   
+   return testOut;
+   }
+   */
 }

@@ -6,10 +6,12 @@
 
 class FacialRecognition {
   private Utility util = new Utility();
+
   private Rectangle[] faces;
   private int[][] histogram;
-  private int gradient = 4;//減色時の階調
 
+  private int gradient = 4;//減色時の階調
+  private PFont font = createFont("MS-PGothic-14.vlw", 14, true);
 
   FacialRecognition(Rectangle[] faces) {
     this.faces = faces;
@@ -36,30 +38,40 @@ class FacialRecognition {
   public void draw_facerect() {
     noFill();
     strokeWeight(3);
+    textFont(font);
 
     for (int i=0; i<faces.length; i++) {
-      double[] percent = fc.classification(this.histogram[i]);
-      color col = character_instance(util.argmax(percent)).get_color();
-      
+      double[] testOut = new double[4];
+      int max_index = fc.classification(this.histogram[i], testOut);
+      color col = character_instance(max_index).get_color();
+
       noFill();
       stroke(col);
       rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
-      
-      draw_rectlabel(col);
-      
+
+      draw_rectlabel(col, max_index, faces[i]);
     }
   }
-  
- /**
+
+  /**
    * 検出された顔全てのヒストグラムの計算
    *
    * @param  col  キャラのパーソナルカラー
    * @return なし
    *
    */
-  public void draw_rectlabel(color col){
+  public void draw_rectlabel(color col, int max_index, Rectangle faces) {
+    String name = character_instance(max_index).get_name();
+    int text_width = (int)(textWidth(name));
+
     noStroke();
     fill(col);
+    textAlign(LEFT, CENTER);
+    rect(faces.x, faces.y, textWidth(name)+30, 15);
+
+    fill(#000000);
+    text(name, faces.x+5, faces.y+5);
+    text(max_index, faces.x+text_width+15, faces.y+5);
   }
 
 
@@ -70,6 +82,9 @@ class FacialRecognition {
    * @return なし
    *
    */
+
+  //TODO : max_indexではなく、％をtext()表示する
+
   public void calc_histogram() {
     loadPixels();
 
@@ -125,7 +140,7 @@ class FacialRecognition {
     int[] reduct_array = new int[array.length];
 
     for (int i=0; i<array.length; i++)
-      reduct_array[i] = array[i]/(int)(pow(256, 3)/pow(gradient, 3));
+      reduct_array[i] = array[i]/(int)(pow(256, 3)/pow(this.gradient, 3));
 
     return reduct_array;
   }
@@ -143,7 +158,7 @@ class FacialRecognition {
 
 
     for (int i=0; i<origin_array.length; i++)
-      reduct_array[i] = origin_array_1d[i]/(int)(pow(256, 3)/pow(gradient, 3));
+      reduct_array[i] = origin_array_1d[i]/(int)(pow(256, 3)/pow(this.gradient, 3));
 
     return reduct_array;
   }
