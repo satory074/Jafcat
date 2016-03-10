@@ -1,3 +1,9 @@
+/**
+ * ポイントのX座標とY座標を定める
+ * @editor satori
+ *
+ */
+
 class Point {
 
   private int x;
