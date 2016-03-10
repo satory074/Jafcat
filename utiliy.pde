@@ -33,7 +33,7 @@ class Utility {
 
     for (int i=0; i<column_size; i++)
       for (int j=0; j<row_size; j++)
-        array_2d[i][j] = array_1d[j*row_size+i];
+        array_2d[i][j] = array_1d[i*row_size+j];
 
     return array_2d;
   }
@@ -49,7 +49,7 @@ class Utility {
 
     for (int i=0; i<array_2d.length; i++)
       for (int j=0; j<array_2d[i].length; j++)
-        array_1d[j*array_2d[i].length+j] = array_2d[i][j];
+        array_1d[i*array_2d[0].length+j] = array_2d[i][j];
 
     return array_1d;
   }

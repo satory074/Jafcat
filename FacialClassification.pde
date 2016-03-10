@@ -123,6 +123,10 @@ class FacialClassification {
         maxIndex = index;
       }
     }
+    
+    //for(int i=0;i<testData.length;i++)
+      //println(testData[i]);
+    
     return maxIndex;
   }
 

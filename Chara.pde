@@ -1,6 +1,6 @@
 /**
  * キャラクターの情報
- * @editor satori
+ * @author satori
  *
  */
 

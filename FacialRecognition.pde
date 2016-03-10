@@ -40,7 +40,9 @@ class FacialRecognition {
     strokeWeight(3);
     textFont(font);
 
-    for (int i=0; i<faces.length; i++) {
+    calc_histogram();
+
+    for (int i=0; i<faces.length; i++) {      
       double[] testOut = new double[4];
       int max_index = fc.classification(this.histogram[i], testOut);
       color col = character_instance(max_index).get_color();
@@ -86,24 +88,29 @@ class FacialRecognition {
   //TODO : max_indexではなく、％をtext()表示する
 
   public void calc_histogram() {
-    loadPixels();
-
-    int[][] pixels_2d = util.convert_array_1_to_2(pixels, height, width);
+    loadPixels(); //<>//
+    
+    //pixels[]を16進数->10進数とする
+    int[] pixels_1d = new int[pixels.length];
+    for(int i=0; i<pixels_1d.length; i++)
+      pixels_1d[i] = unhex(hex(pixels[i], 6));
+    
+    int[][] pixels_2d = util.convert_array_1_to_2(pixels_1d, height, width); //<>//
 
     for (int face_id=0; face_id<faces.length; face_id++) {
-      int[][] face_pixels_2d = new int[faces[face_id].height][faces[face_id].width];
+      int[][] face_pixels_2d = new int[faces[face_id].height][faces[face_id].width]; //<>//
 
       //顔の範囲のピクセルデータを格納
-      for (int wid=0; wid<faces[face_id].height; wid++) {
-        for (int hei=0; hei<faces[face_id].width; hei++) {
-          face_pixels_2d[hei][wid] = pixels_2d[hei][wid];
+      for (int wid=0; wid<faces[face_id].width; wid++) {
+        for (int hei=0; hei<faces[face_id].height; hei++) {
+          face_pixels_2d[hei][wid] = unhex(hex(pixels_2d[hei][wid], 6)); //<>//
         }
       }
 
       //ヒストグラムの計算
       int[] face_pixels_1d = invert_pixels(face_pixels_2d);
       for (int i=0; i<face_pixels_1d.length; i++) {
-        this.histogram[face_id][face_pixels_1d[i]]++;
+        this.histogram[face_id][face_pixels_1d[i]]++; //<>//
       }
     }
   }
@@ -155,7 +162,6 @@ class FacialRecognition {
     Utility util = new Utility();
     int[] origin_array_1d = util.convert_array_2_to_1(origin_array);
     int[] reduct_array = new int[origin_array.length];
-
 
     for (int i=0; i<origin_array.length; i++)
       reduct_array[i] = origin_array_1d[i]/(int)(pow(256, 3)/pow(this.gradient, 3));
